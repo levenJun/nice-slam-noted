@@ -16,7 +16,10 @@ from src.utils.Renderer import Renderer
 
 torch.multiprocessing.set_sharing_strategy('file_system')
 
-
+#加载配置参数
+#初始化3+1级的特征网格
+#加载conv_onet的MLP解码器
+#创建一些关键组件:mapper,tracker,renderer,mesher
 class NICE_SLAM():
     """
     NICE_SLAM main class.
@@ -272,6 +275,9 @@ class NICE_SLAM():
         color_val = torch.zeros(val_shape).normal_(mean=0, std=0.01)
         c[color_key] = color_val
 
+        #self.shared_c 3+1级特征网格,各个网格以key_string区分
+        #单个网格, size是[1,32,z_size, y_size, x_size]
+        #单个网格, 初始化为0均值的高斯噪声值
         self.shared_c = c
 
     def tracking(self, rank):

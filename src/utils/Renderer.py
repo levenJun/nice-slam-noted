@@ -72,8 +72,8 @@ class Renderer(object):
         Args:
             c (dict): feature grids.
             decoders (nn.module): decoders.
-            rays_d (tensor, N*3): rays direction.
-            rays_o (tensor, N*3): rays origin.
+            rays_d (tensor, N*3): rays direction. 射线方向
+            rays_o (tensor, N*3): rays origin.  射线起点(相机光心位置?)
             device (str): device name to compute on.
             stage (str): query stage.
             gt_depth (tensor, optional): sensor depth image. Defaults to None.
@@ -84,9 +84,9 @@ class Renderer(object):
             color (tensor): rendered color.
         """
 
-        N_samples = self.N_samples
-        N_surface = self.N_surface
-        N_importance = self.N_importance
+        N_samples = self.N_samples  #单条射线采样点数
+        N_surface = self.N_surface  #物体表面附近采样点数
+        N_importance = self.N_importance #沿每条射线采样的附加次数
 
         N_rays = rays_o.shape[0]
 

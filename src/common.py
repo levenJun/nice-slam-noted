@@ -84,7 +84,7 @@ def get_rays_from_uv(i, j, c2w, H, W, fx, fy, cx, cy, device):
     rays_o = c2w[:3, -1].expand(rays_d.shape)
     return rays_o, rays_d
 
-
+#单图上的点随机采样n个像素(射线), 返回depth和color
 def select_uv(i, j, n, depth, color, device='cuda:0'):
     """
     Select n uv from dense uv.
@@ -101,7 +101,7 @@ def select_uv(i, j, n, depth, color, device='cuda:0'):
     color = color[indices]  # (n,3)
     return i, j, depth, color
 
-
+#单图上的点随机采样n个像素(射线), 返回depth和color
 def get_sample_uv(H0, H1, W0, W1, n, depth, color, device='cuda:0'):
     """
     Sample n uv coordinates from an image region H0..H1, W0..W1

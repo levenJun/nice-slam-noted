@@ -83,6 +83,7 @@ class Tracker(object):
         Returns:
             loss (float): The value of loss.
         """
+        #1)采样并得到对应的观测深度图和color图(只取图像采样像素下的值)
         device = self.device
         H, W, fx, fy, cx, cy = self.H, self.W, self.fx, self.fy, self.cx, self.cy
         optimizer.zero_grad()
@@ -104,6 +105,7 @@ class Tracker(object):
             batch_gt_depth = batch_gt_depth[inside_mask]
             batch_gt_color = batch_gt_color[inside_mask]
 
+        #2)前向预测深度图和color图(只取图像采样像素下的值)
         ret = self.renderer.render_batch_ray(
             self.c, self.decoders, batch_rays_d, batch_rays_o, self.device, stage='color', gt_depth=batch_gt_depth)
         depth, uncertainty, color = ret
@@ -115,6 +117,7 @@ class Tracker(object):
         else:
             mask = batch_gt_depth > 0
 
+        #3)残差loss构建
         loss = (torch.abs(batch_gt_depth - depth) /
                 torch.sqrt(uncertainty + 1e-10))[mask].sum()
 
